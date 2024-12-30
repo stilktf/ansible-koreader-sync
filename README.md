@@ -9,18 +9,19 @@ This Ansible role sets up a [KOReader sync server](https://github.com/koreader/k
 Requirements
 ------------
 
-This role uses the Docker module, so you must have Docker already installed on the host you want to use the role on.
+This role uses the Docker module, so you must have Docker already installed on the host you want to use the role on. If you are going to build the Docker image, you need Git installed (usually this is installed with Ansible)
 
 Role Variables
 --------------
 
 ### Default variables
-| Variable name    | Explanation                                                                  | Default value         |
-| -------------    | -----------                                                                  | -------------         |
-| server_port      | The port to forward the server to                                            | 7200                  |
-| container_name   | The name of the sync server's container                                      | kosync                |
-| server_directory | Where to store the sync server's files                                       | /opt/(container name) |
-| server_version   | The version to use (from [Docker](https://hub.docker.com/r/koreader/kosync)) | latest                |
+| Variable name    | Explanation                                                                                                | Default value         |
+| -------------    | -----------                                                                                                | -------------         |
+| server_port      | The port to forward the server to                                                                          | 7200                  |
+| container_name   | The name of the sync server's container                                                                    | kosync                |
+| server_directory | Where to store the sync server's files                                                                     | /opt/(container name) |
+| server_version   | The version to use (from [Docker](https://hub.docker.com/r/koreader/kosync))                               | latest                |
+| build_image      | Whether to build the Docker image. This is useful for architectures the image doesn't support, like arm64. | false                 |
 
 Dependencies
 ------------

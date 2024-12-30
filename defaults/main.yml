@@ -4,3 +4,4 @@ server_port: 7200
 container_name: "kosync"
 server_directory: "/opt/{{ container_name }}"
 server_version: "latest"
+build_image: false # whether to build a Docker image or not (useful for arm64 computers or other use cases)

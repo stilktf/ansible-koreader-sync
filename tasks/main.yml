@@ -5,6 +5,25 @@
   register: docker_valid
   changed_when: docker_valid.rc != 0
 
+- name: Clone koreader-sync-server repo
+  ansible.builtin.git:
+    repo: https://github.com/koreader/koreader-sync-server
+    dest: /tmp/koreader-sync-server
+    version: master
+  when: build_image
+
+- name: Build Docker image
+  community.docker.docker_image_build:
+    name: koreader/kosync
+    path: /tmp/koreader-sync-server
+  when: build_image
+
+- name: Delete cloned repo
+  ansible.builtin.file:
+    state: absent
+    path: /tmp/koreader-sync-server
+  when: build_image
+
 - name: Setup kosync container
   community.docker.docker_container:
     name: '{{ container_name }}'
