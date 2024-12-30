@@ -1,0 +1,25 @@
+---
+# tasks file for koreader-sync
+- name: Check if Docker is installed on the system
+  ansible.builtin.command: docker --version
+  register: docker_valid
+  changed_when: docker_valid.rc != 0
+
+- name: Setup kosync container
+  community.docker.docker_container:
+    name: '{{ container_name }}'
+    image: "koreader/kosync:{{ server_version }}"
+    restart_policy: unless-stopped
+    volumes:
+      - "{{ server_directory }}/logs/app:/app/koreader-sync-server/logs"
+      - "{{ server_directory }}/logs/redis:/var/log/redis"
+      - "{{ server_directory }}/data/redis:/var/lib/redis"
+    ports:
+      - '{{ server_port }}:7200'
+
+- name: Run healthcheck on container (make sure it's working)
+  ansible.builtin.uri:
+    headers:
+      Accept: application/vnd.koreader.v1+json
+    url: 'https://localhost:{{ server_port }}/healthcheck'
+    validate_certs: false # the KOReader sync server uses self-signed certificates.

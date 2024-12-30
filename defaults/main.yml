@@ -1,0 +1,6 @@
+---
+# defaults file for koreader-sync
+server_port: 7200
+container_name: "kosync"
+server_directory: "/opt/{{ container_name }}"
+server_version: "latest"
